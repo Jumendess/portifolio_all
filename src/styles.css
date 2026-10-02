@@ -256,3 +256,8 @@ footer { padding: 40px 0 56px; color: var(--muted); font-size: 14px; }
 }
 @media (hover: none) { .spotlight { display: none; } }
 .hero-copy, .hero-visual { min-width: 0; }
+.who { display: flex; flex-direction: column; gap: 4px; }
+.who strong { font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: .01em; }
+.who span { color: var(--lilac); font-size: 15px; }
+.step .role { color: var(--lilac); font-size: 15px; margin-top: 2px; }
+.who span, .hero h1 { text-wrap: balance; }

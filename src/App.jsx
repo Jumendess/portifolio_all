@@ -12,7 +12,7 @@ export default function App() {
         <nav aria-label="Principal">
           <a className="mark" href="#topo">julio<span>.</span>mendes</a>
           <ul>
-            <li><a href="#mensageria">Mensageria</a></li>
+            <li><a href="#atendimento">Atendimento</a></li>
             <li><a href="#projetos">Projetos</a></li>
             <li><a href="#trajetoria">Trajetória</a></li>
             <li><a href="#contato">Contato</a></li>
@@ -23,12 +23,12 @@ export default function App() {
       <header className="hero" id="topo">
         <div className="wrap hero-grid">
           <div className="hero-copy">
-            <p className="who"><strong>{profile.name}</strong>, desenvolvedor de mensageria, automação e IA em {profile.city}</p>
+            <p className="who"><strong>{profile.name}</strong><span>{profile.role}</span></p>
             <h1><ScrambleText text="Eu construo conversas que trabalham sozinhas." /></h1>
-            <p className="lede">APIs do WhatsApp, chatbots e agentes de IA que respondem clientes, disparam campanhas e avisam o time na hora certa. Do webhook ao Microsoft Copilot.</p>
+            <p className="lede">Automação de atendimento, chatbots e IA com WhatsApp Business API. Eu transformo uma necessidade do negócio em um fluxo que funciona, do levantamento de requisitos até a sustentação em produção.</p>
             <div className="actions">
               <a className="btn primary" href="#projetos">Ver projetos</a>
-              <a className="btn ghost" href="#mensageria">Como eu trabalho com mensageria</a>
+              <a className="btn ghost" href="#atendimento">Ver como funciona</a>
             </div>
           </div>
           <div className="hero-visual">
@@ -39,12 +39,12 @@ export default function App() {
         </div>
       </header>
 
-      <section id="mensageria" className="messaging">
+      <section id="atendimento" className="messaging">
         <div className="wrap">
           <div className="split">
             <div>
-              <h2>Mensageria de ponta a ponta</h2>
-              <p className="sub">Da configuração do número no WhatsApp até o relatório de entregas do dia seguinte. Escolha um exemplo e veja a mensagem atravessar o fluxo.</p>
+              <h2>Atendimento automatizado de ponta a ponta</h2>
+              <p className="sub">Do desenho do fluxo conversacional à integração com os sistemas, das campanhas em grande volume ao relatório do dia seguinte. Escolha um exemplo e veja a mensagem atravessar o fluxo.</p>
               <ul className="channels" aria-label="Canais e plataformas">
                 {messaging.channels.map((c) => <li key={c}>{c}</li>)}
               </ul>
@@ -73,7 +73,7 @@ export default function App() {
             {timeline.map((s) => (
               <li className={`step ${s.now ? "now" : ""}`} key={s.title}>
                 <span className="when">{s.when}</span>
-                <div><h3>{s.title}</h3><p>{s.text}</p></div>
+                <div><h3>{s.title}</h3>{s.role && <p className="role">{s.role}</p>}<p>{s.text}</p></div>
               </li>
             ))}
           </ol>
@@ -108,7 +108,7 @@ function Projects() {
     <section id="projetos">
       <div className="wrap">
         <h2>Projetos</h2>
-        <p className="sub">Produtos próprios, integrações de canais, agentes de IA e automações. Abra cada um para ver como funciona por dentro.</p>
+        <p className="sub">Produtos próprios, chatbots, agentes de IA, integrações e automações. Abra cada um para ver como funciona por dentro.</p>
 
         <div className="filters" role="group" aria-label="Filtrar projetos">
           {filters.map((f) => (

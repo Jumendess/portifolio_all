@@ -1,7 +1,7 @@
 // Edite aqui seus links de contato. Campos vazios não aparecem no site.
 export const profile = {
   name: "Julio Mendes",
-  role: "Mensageria, automação e IA",
+  role: "Analista desenvolvedor pleno · Automação de atendimento",
   city: "São Paulo",
   github: "https://github.com/Jumendess",
   linkedin: "https://www.linkedin.com/in/juliomendess/",
@@ -51,14 +51,14 @@ export const scenes = [
 
 // Mensageria: o que você faz com as APIs
 export const messaging = {
-  channels: ["WhatsApp Cloud API", "Telegram Bot API", "Messenger", "Microsoft Teams", "Blip", "Oracle Digital Assistant", "Dialogflow"],
+  channels: ["WhatsApp Business API", "Cloud API", "Chatwoot", "Cvortex", "ChatPro", "Blip", "Oracle Digital Assistant", "Dialogflow", "Watson Assistant", "Typebot", "Manychat", "Telegram", "Microsoft Copilot"],
   skills: [
-    { title: "WhatsApp Business Cloud API", text: "Configuração de número e perfil, envio de mensagens de sessão e de templates, mídia e botões." },
-    { title: "Templates e disparos", text: "Criação de templates, jornadas de campanha com troca programada e acompanhamento do resultado." },
-    { title: "Webhooks", text: "Recebimento de mensagens e status de entrega em tempo real, com roteamento para bots, filas ou sistemas internos." },
-    { title: "Métricas", text: "Relatórios automáticos de mensagens entregues, lidas e de serviço, enviados todo dia para o time." },
-    { title: "Plataformas de atendimento", text: "Integrações com Blip, Oracle Digital Assistant e Dialogflow para unir bot e atendimento humano." },
-    { title: "Bots com IA", text: "Chatbots que entendem linguagem natural, guardam memória da conversa e acionam ferramentas." },
+    { title: "WhatsApp Business API", text: "Configuração de número e perfil na Cloud API, mensagens de sessão, mídia, botões e templates aprovados pela Meta." },
+    { title: "Templates e campanhas", text: "Criação e gestão de templates para campanhas de grande volume, jornadas de disparo e acompanhamento de métricas de entrega." },
+    { title: "Fluxos conversacionais", text: "Desenho técnico de fluxos para atendimento, cobrança e onboarding, com regras de negócio documentadas." },
+    { title: "Integrações e webhooks", text: "Ligação entre plataformas de atendimento, APIs REST e sistemas internos, com monitoramento e apoio na resolução de incidentes." },
+    { title: "Chatbots com IA", text: "Bots em Cvortex, ChatPro, Oracle Digital Assistant, Dialogflow e n8n, com IA generativa, memória de conversa e engenharia de prompt." },
+    { title: "Do requisito à sustentação", text: "Levantamento de requisitos, gestão do projeto entre negócio, marketing e tecnologia, implantação, testes e evolução contínua." },
   ],
 };
 
@@ -67,7 +67,7 @@ export const filters = [
   { id: "mensageria", label: "Mensageria" },
   { id: "produto", label: "Produtos próprios" },
   { id: "agente", label: "Agentes de IA" },
-  { id: "corp", label: "Corporativos" },
+  { id: "corp", label: "Para empresas e clientes" },
   { id: "codigo", label: "Código aberto" },
 ];
 
@@ -205,6 +205,24 @@ export const projects = [
     stack: ["n8n", "WhatsApp", "PostgreSQL"],
   },
   {
+    name: "Triagem inteligente para clínicas",
+    tag: "Saúde · WhatsApp com IA",
+    cats: ["corp", "agente", "mensageria"],
+    line: "Qualifica pacientes pelo WhatsApp antes da consulta, com perguntas guiadas por IA.",
+    text: "Projeto de consultoria para clínicas médicas. Um LLM conduz a triagem pelo WhatsApp e entrega o paciente já qualificado para a equipe.",
+    points: ["Qualificação automática de pacientes", "Engenharia de prompt para conduzir a conversa"],
+    stack: ["n8n", "WhatsApp API", "LLMs", "Webhooks"],
+  },
+  {
+    name: "Interação ao vivo para rádio",
+    tag: "Mídia · mensageria em tempo real",
+    cats: ["corp", "mensageria"],
+    line: "Plataforma que recebe a participação dos ouvintes em tempo real, sem perder mensagem nos picos de audiência.",
+    text: "Projeto de consultoria para uma emissora de rádio. As mensagens dos espectadores entram em filas do RabbitMQ e são processadas de forma assíncrona, então a operação aguenta os momentos de maior volume.",
+    points: ["Filas e processamento assíncrono", "Aguenta os picos de participação"],
+    stack: ["RabbitMQ", "n8n", "Webhooks", "JavaScript"],
+  },
+  {
     name: "Agente de retenção",
     tag: "Microsoft 365 Copilot · telecom",
     cats: ["corp", "agente"],
@@ -258,9 +276,10 @@ export const projects = [
 ];
 
 export const timeline = [
-  { when: "nov 2025 – hoje", title: "Spread Tecnologia", text: "Analista desenvolvedor pleno em automação de atendimento, chatbots e IA para o setor de telecom.", now: true },
-  { when: "2025", title: "Consultor independente", text: "Projetos de automação, mensageria e IA para empresas." },
-  { when: "2022 – 2025", title: "ADIN · Oracle CX", text: "Desenvolvimento de chatbots para atendimento ao cliente." },
-  { when: "2015 – 2022", title: "RD", text: "Supervisor de vendas." },
-  { when: "até 2027", title: "Tecnologia em Cibersegurança", text: "Graduação em andamento na Anhanguera." },
+  { when: "nov 2025 – hoje", title: "Spread Tecnologia", role: "Analista desenvolvedor pleno", text: "Elo entre negócio, tecnologia e operação em projetos de telecom: desenho de fluxos conversacionais para atendimento, cobrança e onboarding, chatbots em Cvortex e ChatPro, templates de WhatsApp Business API para campanhas de grande volume e automações em Python e Alteryx.", now: true },
+  { when: "jun – out 2025", title: "Consultor independente", role: "Desenvolvedor de automações e soluções com IA", text: "Projetos do zero até o deploy para clientes de saúde, mídia e nutrição, com n8n, APIs, CRMs, PostgreSQL, Redis, RabbitMQ e modelos da OpenAI e da Anthropic." },
+  { when: "out 2023 – jun 2025", title: "ADIN · Oracle CX", role: "Desenvolvedor de chatbot e curadoria", text: "Chatbots em Oracle Digital Assistant, Dialogflow e Watson Assistant, webhooks para o WhatsApp oficial, Node.js, Typebot e Manychat, análise de conversas e treinamentos para as equipes." },
+  { when: "out 2022 – out 2023", title: "ADIN · Oracle CX", role: "Estagiário de tecnologia", text: "Chatbots com linguagem natural, configuração do Oracle CX, testes e diagnóstico de bots e relatórios de desempenho." },
+  { when: "ago 2015 – ago 2022", title: "RD", role: "Supervisor de vendas", text: "Coordenação de equipes, acompanhamento de KPIs, treinamentos e campanhas promocionais." },
+  { when: "fev 2025 – jun 2027", title: "Anhanguera", role: "Tecnologia em Cibersegurança", text: "Graduação em andamento." },
 ];

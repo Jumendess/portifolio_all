@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const CHANNELS = ["WhatsApp", "Telegram", "Teams", "Messenger", "Blip", "Oracle ODA", "n8n"];
+const CHANNELS = ["WhatsApp", "Chatwoot", "Cvortex", "ChatPro", "Oracle ODA", "Telegram", "n8n"];
 
 // Rede de canais orbitando um núcleo de IA, com mensagens indo e voltando.
 export default function NetworkCanvas() {
