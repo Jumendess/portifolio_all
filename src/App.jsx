@@ -1,11 +1,13 @@
 import { useState } from "react";
 import NetworkCanvas from "./components/NetworkCanvas.jsx";
 import Console from "./components/Console.jsx";
+import { ScrambleText, HudCounter, Ambience } from "./components/Effects.jsx";
 import { profile, messaging, filters, projects, timeline } from "./data/content.js";
 
 export default function App() {
   return (
     <>
+      <Ambience />
       <div className="wrap">
         <nav aria-label="Principal">
           <a className="mark" href="#topo">julio<span>.</span>mendes</a>
@@ -22,14 +24,18 @@ export default function App() {
         <div className="wrap hero-grid">
           <div className="hero-copy">
             <p className="who"><strong>{profile.name}</strong>, desenvolvedor de mensageria, automação e IA em {profile.city}</p>
-            <h1>Eu construo conversas que trabalham sozinhas.</h1>
+            <h1><ScrambleText text="Eu construo conversas que trabalham sozinhas." /></h1>
             <p className="lede">APIs do WhatsApp, chatbots e agentes de IA que respondem clientes, disparam campanhas e avisam o time na hora certa. Do webhook ao Microsoft Copilot.</p>
             <div className="actions">
               <a className="btn primary" href="#projetos">Ver projetos</a>
               <a className="btn ghost" href="#mensageria">Como eu trabalho com mensageria</a>
             </div>
           </div>
-          <div className="hero-visual"><NetworkCanvas /></div>
+          <div className="hero-visual">
+            <span className="corner tl" /><span className="corner tr" /><span className="corner bl" /><span className="corner br" />
+            <NetworkCanvas />
+            <HudCounter />
+          </div>
         </div>
       </header>
 
@@ -80,11 +86,11 @@ export default function App() {
             <h2>Tem um processo que deveria rodar sozinho?</h2>
             <p className="sub">Conte o que o seu time repete todo dia, no atendimento ou nos disparos. Eu mostro como automatizar.</p>
             <div className="actions">
-              {profile.whatsapp && <a className="btn primary" href={`https://wa.me/${profile.whatsapp}`} target="_blank" rel="noopener">Chamar no WhatsApp</a>}
+              {profile.whatsapp && <a className="btn primary" href={`https://wa.me/${profile.whatsapp}?text=${encodeURIComponent("Oi, Julio! Vi seu portfólio e queria conversar sobre automação.")}`} target="_blank" rel="noopener">Chamar no WhatsApp</a>}
               {profile.linkedin && <a className={`btn ${profile.whatsapp ? "ghost" : "primary"}`} href={profile.linkedin} target="_blank" rel="noopener">Falar no LinkedIn</a>}
-              {profile.email && <a className="btn ghost" href={`mailto:${profile.email}`}>Enviar e-mail</a>}
               <a className={`btn ${profile.whatsapp || profile.linkedin ? "ghost" : "primary"}`} href={profile.github} target="_blank" rel="noopener">Ver meu GitHub</a>
             </div>
+            {profile.email && <p className="mail">Ou escreva para <a href={`mailto:${profile.email}`}>{profile.email}</a></p>}
           </div>
         </div>
       </section>

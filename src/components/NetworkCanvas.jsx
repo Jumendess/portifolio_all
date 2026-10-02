@@ -24,7 +24,7 @@ export default function NetworkCanvas() {
 
     const geom = () => {
       const cx = w / 2 + pointer.x * 10, cy = h / 2 + pointer.y * 10;
-      const rx = Math.min(w / 2 - 56, 290), ry = Math.min(h * 0.38, 210);
+      const rx = Math.max(40, Math.min(w / 2 - 56, 290)), ry = Math.max(30, Math.min(h * 0.38, 210));
       return { cx, cy, rx, ry };
     };
 
@@ -68,7 +68,11 @@ export default function NetworkCanvas() {
       for (let i = packets.length - 1; i >= 0; i--) {
         const k = packets[i];
         k.p += reduce ? 0 : k.speed;
-        if (k.p >= 1) { packets.splice(i, 1); continue; }
+        if (k.p >= 1) {
+          packets.splice(i, 1);
+          window.dispatchEvent(new CustomEvent("packet", { detail: { channel: CHANNELS[k.ch], inbound: k.inbound } }));
+          continue;
+        }
         const p = pos[k.ch];
         const e = k.p < 0.5 ? 2 * k.p * k.p : 1 - Math.pow(-2 * k.p + 2, 2) / 2;
         const a = k.inbound ? e : 1 - e;

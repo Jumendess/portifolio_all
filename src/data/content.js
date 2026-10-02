@@ -4,9 +4,9 @@ export const profile = {
   role: "Mensageria, automação e IA",
   city: "São Paulo",
   github: "https://github.com/Jumendess",
-  linkedin: "",
-  email: "",
-  whatsapp: "", // ex.: "5511999999999"
+  linkedin: "https://www.linkedin.com/in/juliomendess/",
+  email: "julio.mendes60@gmail.com",
+  whatsapp: "5511998842630",
 };
 
 // Cenas do console animado do topo
