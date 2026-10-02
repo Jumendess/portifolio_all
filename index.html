@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Julio Mendes · Automação e IA</title>
+<meta name="description" content="Portfólio de Julio Mendes: chatbots, agentes de IA e automações com n8n, WhatsApp, Telegram e Microsoft Copilot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --abyss:#0D1028;
+  --deep:#141838;
+  --panel:#1B2049;
+  --line:#2C3268;
+  --ice:#9EEBFF;
+  --lilac:#C3B4FF;
+  --text:#E8EAF7;
+  --muted:#9297BE;
+  --display:"Unbounded",system-ui,sans-serif;
+  --body:"Manrope",system-ui,sans-serif;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--abyss);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--ice);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--lilac)}
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+/* faint star grid behind everything */
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(rgba(158,235,255,.18) 1px,transparent 1.2px);
+  background-size:38px 38px;
+  mask-image:radial-gradient(ellipse 80% 60% at 70% 20%,#000 0%,transparent 75%)}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.mark{font-family:var(--display);font-weight:600;font-size:15px;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.mark span{color:var(--ice)}
+nav ul{display:flex;gap:26px;list-style:none}
+nav ul a{color:var(--muted);text-decoration:none;font-size:15px}
+nav ul a:hover{color:var(--text)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding:72px 0 96px}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,58px);line-height:1.06;letter-spacing:-.02em}
+.hero .who{color:var(--muted);margin-bottom:22px;font-size:16px}
+.hero .who strong{color:var(--text);font-weight:700}
+.hero p.lede{margin-top:24px;max-width:46ch;color:#C9CCE6;font-size:18px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--line)}
+.btn.primary{background:var(--ice);color:var(--abyss);border-color:var(--ice)}
+.btn.primary:hover{background:var(--lilac);border-color:var(--lilac);color:var(--abyss)}
+.btn.ghost{color:var(--text)}
+.btn.ghost:hover{border-color:var(--ice);color:var(--ice)}
+
+/* the live flow console */
+.console{background:linear-gradient(180deg,var(--deep),#10143A);border:1px solid var(--line);border-radius:22px;padding:20px;position:relative;box-shadow:0 30px 80px -30px rgba(120,110,255,.35)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.tabs button{font:500 13px var(--body);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--abyss);background:var(--lilac);border-color:var(--lilac)}
+.tabs button:hover:not([aria-selected="true"]){color:var(--text);border-color:var(--muted)}
+.flow{display:grid;gap:14px}
+.bubble{max-width:86%;padding:11px 15px;border-radius:16px;font-size:15px;line-height:1.45;min-height:44px}
+.bubble.in{background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bubble.out{justify-self:end;background:rgba(158,235,255,.12);border:1px solid rgba(158,235,255,.4);border-bottom-right-radius:4px}
+.bubble .from{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.pipe{position:relative;display:flex;justify-content:space-between;align-items:center;padding:14px 4px}
+.pipe::before{content:"";position:absolute;left:18px;right:18px;top:50%;height:2px;background:var(--line)}
+.pipe .beam{position:absolute;left:18px;top:50%;height:2px;width:0;background:linear-gradient(90deg,var(--lilac),var(--ice));box-shadow:0 0 12px var(--ice)}
+.node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:7px;width:25%;text-align:center}
+.node i{width:34px;height:34px;border-radius:50%;background:var(--abyss);border:2px solid var(--line);display:block;transition:border-color .3s,box-shadow .3s,background .3s}
+.node.on i{border-color:var(--ice);background:#16304a;box-shadow:0 0 0 5px rgba(158,235,255,.12),0 0 18px rgba(158,235,255,.5)}
+.node small{font-size:12px;color:var(--muted);line-height:1.3}
+.node.on small{color:var(--text)}
+.caret{display:inline-block;width:7px;height:15px;background:var(--ice);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.console .foot{margin-top:16px;font-size:13px;color:var(--muted)}
+
+/* sections */
+section{padding:88px 0}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(26px,3.2vw,38px);letter-spacing:-.015em;line-height:1.15}
+.sub{color:var(--muted);margin-top:12px;max-width:60ch}
+
+/* project index */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:34px 0 22px}
+.filters button{font:500 14px var(--body);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+.filters button[aria-pressed="true"]{color:var(--text);border-color:var(--ice);background:rgba(158,235,255,.08)}
+.projects{border-top:1px solid var(--line)}
+.proj{border-bottom:1px solid var(--line)}
+.proj summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1.1fr 1.6fr auto;gap:24px;align-items:center;padding:26px 6px}
+.proj summary::-webkit-details-marker{display:none}
+.proj summary:hover .pname{color:var(--ice)}
+.pname{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.2vw,26px);transition:color .2s}
+.ptag{display:block;font-family:var(--body);font-weight:500;font-size:13px;color:var(--lilac);margin-top:4px}
+.pline{color:#C9CCE6;font-size:16px}
+.plus{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);position:relative;flex:none}
+.plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:var(--text);transform:translate(-50%,-50%);transition:transform .25s}
+.plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+.proj[open] .plus{border-color:var(--ice)}
+.proj[open] .plus::after{transform:translate(-50%,-50%) rotate(0)}
+.pbody{display:grid;grid-template-columns:1.1fr 1.6fr auto;gap:24px;padding:0 6px 34px}
+.pbody .stack{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.pbody .stack span{font-size:13px;color:var(--ice);border:1px solid rgba(158,235,255,.3);border-radius:6px;padding:3px 9px}
+.pbody .detail p{color:#C9CCE6;max-width:62ch}
+.pbody .detail ul{margin:14px 0 0 0;list-style:none;display:grid;gap:8px}
+.pbody .detail li{padding-left:20px;position:relative;color:#C9CCE6;font-size:16px}
+.pbody .detail li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:50%;border:2px solid var(--lilac)}
+.pbody .detail .link{display:inline-block;margin-top:16px;font-weight:700}
+.pbody .spacer{width:34px}
+.proj[open] .pbody{animation:open .3s ease-out}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* capabilities */
+.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:40px}
+.cap{background:var(--abyss);padding:30px 26px}
+.cap h3{font-family:var(--display);font-weight:600;font-size:18px;margin-bottom:10px}
+.cap p{color:var(--muted);font-size:15.5px}
+
+/* timeline */
+.timeline{margin-top:44px;position:relative;display:grid;gap:0}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--ice),var(--lilac),var(--line))}
+.step{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:0 0 38px 40px;position:relative}
+.step::before{content:"";position:absolute;left:0;top:6px;width:16px;height:16px;border-radius:50%;background:var(--abyss);border:2px solid var(--lilac)}
+.step.now::before{border-color:var(--ice);background:var(--ice);box-shadow:0 0 14px var(--ice)}
+.step .when{color:var(--muted);font-size:15px;padding-top:2px}
+.step h3{font-family:var(--display);font-weight:600;font-size:19px}
+.step p{color:#C9CCE6;font-size:16px;margin-top:4px;max-width:60ch}
+
+/* contact */
+.contact{text-align:left;border:1px solid var(--line);border-radius:26px;padding:56px;background:radial-gradient(ellipse at 90% 0%,rgba(195,180,255,.16),transparent 55%),var(--deep)}
+.contact h2{max-width:20ch}
+.contact .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+footer{padding:40px 0 56px;color:var(--muted);font-size:14px}
+
+/* responsive */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;gap:44px;padding:40px 0 64px}
+  .caps{grid-template-columns:1fr}
+  .proj summary,.pbody{grid-template-columns:1fr auto}
+  .proj summary .pline{grid-column:1/-1;grid-row:2}
+  .pbody .stack{grid-column:1/-1;order:2}
+  .pbody .detail{grid-column:1/-1;order:1}
+  .pbody .spacer{display:none}
+  .step{grid-template-columns:1fr;gap:4px}
+  .contact{padding:34px 24px}
+  nav ul{gap:16px}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  nav ul li:nth-child(n+3){display:none}
+  .node small{font-size:11px}
+  section{padding:64px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Principal">
+    <a class="mark" href="#topo">julio<span>.</span>mendes</a>
+    <ul>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#trajetoria">Trajetória</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div>
+      <p class="who"><strong>Julio Mendes</strong>, desenvolvedor de automação e IA em São Paulo</p>
+      <h1>Eu construo conversas que trabalham sozinhas.</h1>
+      <p class="lede">Chatbots, agentes de IA e automações que respondem clientes, organizam finanças, cuidam da agenda e avisam o time na hora certa. Do WhatsApp ao Microsoft Copilot.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projetos">Ver projetos</a>
+        <a class="btn ghost" href="#contato">Falar comigo</a>
+      </div>
+    </div>
+
+    <div class="console" aria-label="Exemplos de automações em funcionamento">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="flow" aria-live="polite">
+        <div class="bubble in"><span class="from" id="inFrom"></span><span id="inText"></span></div>
+        <div class="pipe" aria-hidden="true">
+          <div class="beam" id="beam"></div>
+          <div class="node"><i></i><small id="n0"></small></div>
+          <div class="node"><i></i><small id="n1"></small></div>
+          <div class="node"><i></i><small id="n2"></small></div>
+          <div class="node"><i></i><small id="n3"></small></div>
+        </div>
+        <div class="bubble out"><span class="from" id="outFrom"></span><span id="outText"></span></div>
+      </div>
+      <p class="foot" id="foot"></p>
+    </div>
+  </header>
+</div>
+
+<section id="projetos">
+  <div class="wrap">
+    <h2>Projetos</h2>
+    <p class="sub">Produtos próprios, agentes de IA e automações. Abra cada um para ver como funciona por dentro.</p>
+
+    <div class="filters" role="group" aria-label="Filtrar projetos">
+      <button aria-pressed="true" data-f="todos">Todos</button>
+      <button aria-pressed="false" data-f="produto">Produtos próprios</button>
+      <button aria-pressed="false" data-f="agente">Agentes de IA</button>
+      <button aria-pressed="false" data-f="corp">Projetos corporativos</button>
+      <button aria-pressed="false" data-f="codigo">Código aberto</button>
+    </div>
+
+    <div class="projects" id="list">
+
+      <details class="proj" data-cat="produto agente">
+        <summary>
+          <div><span class="pname">Rendae</span><span class="ptag">SaaS de finanças pessoais</span></div>
+          <p class="pline">App web para controlar receitas, despesas, metas e orçamento, com uma consultora de IA que conversa sobre o seu dinheiro.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>Web app</span><span>IA generativa</span><span>n8n</span><span>WhatsApp Cloud API</span><span>SMTP</span></div>
+          <div class="detail">
+            <p>O Rendae reúne a vida financeira em um lugar só: carteiras, receitas, despesas, metas, orçamento e relatórios. A Renda IA é a consultora virtual do app, que responde dúvidas e ajuda a entender para onde o dinheiro está indo.</p>
+            <ul>
+              <li>Consultora de IA própria, a Renda IA</li>
+              <li>Pesquisa de satisfação por e-mail automatizada no n8n, a partir de uma lista em CSV</li>
+              <li>Canal oficial no WhatsApp pela API Cloud da Meta</li>
+            </ul>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="produto agente">
+        <summary>
+          <div><span class="pname">Fluxent</span><span class="ptag">Bot financeiro no Telegram</span></div>
+          <p class="pline">Você pergunta sobre os seus gastos em linguagem natural e o bot consulta o banco de dados e responde.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>n8n</span><span>Telegram</span><span>MCP</span><span>PostgreSQL</span><span>SQL dinâmico</span></div>
+          <div class="detail">
+            <p>Um agente no Telegram ligado a um servidor MCP com ferramentas de banco de dados. Em vez de respostas fixas, ele monta a consulta SQL na hora, então aceita qualquer pergunta financeira.</p>
+            <ul>
+              <li>Registro de gastos e receitas pela própria conversa</li>
+              <li>Servidor MCP com ferramentas Postgres</li>
+              <li>Ferramenta de SQL dinâmico para perguntas abertas</li>
+            </ul>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="agente">
+        <summary>
+          <div><span class="pname">Lia, a Secretária IA</span><span class="ptag">Super agente no Telegram</span></div>
+          <p class="pline">Uma assistente pessoal que orquestra outros agentes: e-mail, agenda, vagas, restaurantes, passagens e até o guarda-roupa.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>n8n</span><span>Telegram</span><span>Gmail</span><span>Google Agenda</span><span>RAG</span><span>OpenAI</span><span>Gemini</span><span>Groq</span></div>
+          <div class="detail">
+            <p>A Lia recebe o pedido e decide qual agente especializado resolve. Usa vários modelos de IA com reserva: se um falhar, outro responde.</p>
+            <ul>
+              <li>Escreve e-mails e deixa como rascunho para revisão</li>
+              <li>Consulta e marca compromissos na agenda</li>
+              <li>Busca vagas compatíveis com o perfil profissional usando RAG</li>
+              <li>Resumo diário às 8h com notícias, temperatura e chance de chuva</li>
+              <li>Guarda-roupa digital: sugere o look pela ocasião a partir das fotos das peças</li>
+            </ul>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="produto agente">
+        <summary>
+          <div><span class="pname">Agente de LinkedIn</span><span class="ptag">Otimização de perfil com IA</span></div>
+          <p class="pline">Lê o seu perfil, entende o seu objetivo e devolve textos prontos para colar, com antes e depois de cada melhoria.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>n8n</span><span>OpenAI</span><span>pgvector</span><span>Stripe</span><span>API PTAX</span></div>
+          <div class="detail">
+            <p>A pessoa responde um briefing, envia o PDF do perfil e prints, e o agente, especialista no algoritmo do LinkedIn, gera a análise completa. Ela vê uma prévia, paga e recebe o relatório completo em PDF por e-mail.</p>
+            <ul>
+              <li>Base de conhecimento em pgvector (RAG)</li>
+              <li>Palavras-chave sugeridas e comparação antes e depois</li>
+              <li>Pagamento por Pix ou cartão via Stripe</li>
+              <li>Custo de cada análise calculado com o dólar PTAX do Banco Central</li>
+            </ul>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="agente produto">
+        <summary>
+          <div><span class="pname">Diá</span><span class="ptag">Assistente virtual da DialogXperts</span></div>
+          <p class="pline">Atendimento no WhatsApp que lembra do contexto da conversa e responde no tom da marca.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>n8n</span><span>WhatsApp</span><span>PostgreSQL</span><span>Engenharia de prompt</span></div>
+          <div class="detail">
+            <p>A Diá é a assistente da DialogXperts. O fluxo no n8n guarda o histórico em Postgres, então ela mantém o fio da conversa entre mensagens.</p>
+            <ul>
+              <li>Memória de conversa persistente</li>
+              <li>Prompt refinado para o tom e as regras do negócio</li>
+            </ul>
+            <a class="link" href="https://dialogxperts.com.br" target="_blank" rel="noopener">Conhecer a DialogXperts</a>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="corp agente">
+        <summary>
+          <div><span class="pname">Agente de retenção</span><span class="ptag">Microsoft 365 Copilot · telecom</span></div>
+          <p class="pline">Encontra clientes com risco de cancelar antes que eles liguem, e sugere a oferta certa para cada um.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>Microsoft 365 Copilot</span><span>Teams</span><span>RAG</span><span>Excel</span></div>
+          <div class="detail">
+            <p>O agente compara o histórico de atendimento e de CRM de um cliente com o de clientes parecidos que cancelaram, e recomenda uma abordagem, como um plano mais acessível. Ofertas variam por estado.</p>
+            <ul>
+              <li>Retenção proativa, não reativa</li>
+              <li>Roteiro em quatro fases, da análise pós-ligação à assistência em tempo real</li>
+            </ul>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="corp agente">
+        <summary>
+          <div><span class="pname">Jornada de campanhas</span><span class="ptag">Microsoft 365 Copilot · Teams</span></div>
+          <p class="pline">Monta a sequência de templates de disparo e avisa o time no Teams no dia de trocar.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>Microsoft 365 Copilot</span><span>Teams</span><span>Excel</span></div>
+          <div class="detail">
+            <p>O time usava o mesmo template de campanha por muito tempo. O agente lê os templates atuais, monta uma jornada (por exemplo, template A por cinco dias, depois B), sugere novos textos e lembra a equipe da troca.</p>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="corp">
+        <summary>
+          <div><span class="pname">Editor de fluxo de URA</span><span class="ptag">Ferramenta interna · telecom</span></div>
+          <p class="pline">Transforma a planilha de roteamento de chamadas em um fluxograma interativo que dá para editar e exportar.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>HTML</span><span>JavaScript</span><span>SVG</span></div>
+          <div class="detail">
+            <p>Toda a lógica de uma URA estava em uma planilha difícil de ler. O editor desenha o fluxo completo, permite mudar caminhos e exporta o resultado.</p>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="corp">
+        <summary>
+          <div><span class="pname">Relatório diário do WhatsApp</span><span class="ptag">Automação de métricas</span></div>
+          <p class="pline">Todo dia, as métricas do dia anterior da API oficial do WhatsApp chegam prontas no Telegram.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>n8n</span><span>WhatsApp Cloud API</span><span>Telegram</span></div>
+          <div class="detail">
+            <p>Um fluxo agendado consulta a API, organiza as mensagens de serviço entregues e envia o resumo por um bot dedicado.</p>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="codigo">
+        <summary>
+          <div><span class="pname">Pedido Fácil</span><span class="ptag">Backend de pedidos</span></div>
+          <p class="pline">API de pedidos com deploy automático a cada push no GitHub.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>Docker</span><span>Webhook</span><span>Easypanel</span></div>
+          <div class="detail">
+            <p>Backend publicado no Easypanel com webhook do GitHub: cada alteração enviada vira um novo deploy.</p>
+            <a class="link" href="https://github.com/Jumendess/Pedido-facil-backend" target="_blank" rel="noopener">Ver código no GitHub</a>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="codigo">
+        <summary>
+          <div><span class="pname">Site IEBAM</span><span class="ptag">Site institucional</span></div>
+          <p class="pline">Site de igreja com páginas de início, história, eventos e contato.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>React</span><span>Vite</span><span>TypeScript</span><span>React Router</span></div>
+          <div class="detail">
+            <p>Projeto em React com rotas para cada página e uma página de boas-vindas própria.</p>
+            <a class="link" href="https://github.com/Jumendess/iebam-welcome-page" target="_blank" rel="noopener">Ver código no GitHub</a>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+      <details class="proj" data-cat="codigo agente">
+        <summary>
+          <div><span class="pname">Bot Dialogflow para WhatsApp</span><span class="ptag">Chatbot</span></div>
+          <p class="pline">Integração entre Dialogflow e WhatsApp, um dos primeiros bots da trajetória.</p>
+          <span class="plus" aria-hidden="true"></span>
+        </summary>
+        <div class="pbody">
+          <div class="stack"><span>Dialogflow</span><span>WhatsApp</span><span>Webhook</span></div>
+          <div class="detail">
+            <p>Webhook que liga a interpretação de intenções do Dialogflow ao WhatsApp, com uma versão que usa a OpenAI para respostas abertas.</p>
+            <a class="link" href="https://github.com/Jumendess/Dialogflow-WhatsApp-Bot" target="_blank" rel="noopener">Ver código no GitHub</a>
+          </div>
+          <span class="spacer"></span>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>O que eu resolvo</h2>
+    <div class="caps">
+      <div class="cap"><h3>Atendimento automático</h3><p>Chatbots no WhatsApp, Telegram e canais corporativos que entendem a pergunta, lembram do contexto e passam para uma pessoa quando precisa.</p></div>
+      <div class="cap"><h3>Agentes de IA</h3><p>Agentes com base de conhecimento própria (RAG) e ferramentas que consultam bancos, agendas e e-mails para agir, não só responder.</p></div>
+      <div class="cap"><h3>Automação de processos</h3><p>Fluxos no n8n que tiram tarefas repetitivas do time: relatórios diários, pesquisas, cobranças e avisos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="trajetoria">
+  <div class="wrap">
+    <h2>Trajetória</h2>
+    <p class="sub">Sete anos liderando vendas me ensinaram o que o cliente quer ouvir. Hoje eu ensino isso para as máquinas.</p>
+    <div class="timeline">
+      <div class="step now"><span class="when">nov 2025 – hoje</span><div><h3>Spread Tecnologia</h3><p>Analista desenvolvedor pleno em automação de atendimento, chatbots e IA para o setor de telecom.</p></div></div>
+      <div class="step"><span class="when">2025</span><div><h3>Consultor independente</h3><p>Projetos de automação e IA para empresas, sob a marca DialogXperts.</p></div></div>
+      <div class="step"><span class="when">2022 – 2025</span><div><h3>ADIN · Oracle CX</h3><p>Desenvolvimento de chatbots para atendimento ao cliente.</p></div></div>
+      <div class="step"><span class="when">2015 – 2022</span><div><h3>RD</h3><p>Supervisor de vendas.</p></div></div>
+      <div class="step"><span class="when">até 2027</span><div><h3>Tecnologia em Cibersegurança</h3><p>Graduação em andamento na Anhanguera.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Tem um processo que deveria rodar sozinho?</h2>
+      <p class="sub">Conte o que o seu time repete todo dia. Eu mostro como automatizar.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://dialogxperts.com.br" target="_blank" rel="noopener">Falar pela DialogXperts</a>
+        <a class="btn ghost" href="https://github.com/Jumendess" target="_blank" rel="noopener">Ver meu GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">Julio Mendes · São Paulo · 2026</div></footer>
+
+<script>
+const scenes = [
+  { tab:"Fluxent", inFrom:"Você, no Telegram", inText:"Quanto gastei com mercado este mês?",
+    nodes:["Telegram","Agente IA","MCP + SQL","Postgres"],
+    outFrom:"Fluxent", outText:"R$ 842,30 em 11 compras. Isso é 18% a menos que em agosto.",
+    foot:"Pergunta livre, consulta montada na hora." },
+  { tab:"Lia", inFrom:"Você, no Telegram", inText:"Responde o Marcos dizendo que topo a reunião de quinta.",
+    nodes:["Telegram","Orquestrador","Contatos","Gmail"],
+    outFrom:"Lia", outText:"Pronto, o rascunho para o Marcos está no seu Gmail. Revise e envie quando quiser.",
+    foot:"A IA escreve, você aprova." },
+  { tab:"Retenção", inFrom:"Analista, no Teams", inText:"Quais clientes da base têm risco de cancelar esta semana?",
+    nodes:["Copilot","Histórico","Clientes similares","Ofertas por UF"],
+    outFrom:"Agente de retenção", outText:"37 clientes com padrão parecido ao de quem cancelou. Sugestão: oferecer o plano de entrada antes do vencimento.",
+    foot:"Dados ilustrativos." },
+  { tab:"LinkedIn", inFrom:"Cliente, no formulário", inText:"Quero vagas de dados. Aqui está o PDF do meu perfil.",
+    nodes:["Briefing","RAG pgvector","OpenAI","Stripe"],
+    outFrom:"Agente de LinkedIn", outText:"Seu título novo, o resumo reescrito e 12 palavras-chave. Libere o relatório completo para receber o PDF.",
+    foot:"Prévia grátis, relatório pago." }
+];
+const $ = id => document.getElementById(id);
+const tabs = $("tabs");
+const nodes = [...document.querySelectorAll(".node")];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let current = 0, timers = [], auto = true;
+
+scenes.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.type="button"; b.role="tab"; b.textContent=s.tab;
+  b.setAttribute("aria-selected", i===0);
+  b.onclick=()=>{auto=false; play(i);};
+  tabs.appendChild(b);
+});
+
+function clear(){ timers.forEach(clearTimeout); timers=[]; }
+function later(fn,ms){ timers.push(setTimeout(fn,ms)); }
+
+function type(el,text,speed,done){
+  if(reduce){ el.textContent=text; done&&done(); return; }
+  el.innerHTML='<span class="caret"></span>'; let i=0;
+  const tick=()=>{ i++; el.innerHTML=text.slice(0,i)+'<span class="caret"></span>';
+    if(i<text.length) later(tick,speed); else { el.textContent=text; done&&done(); } };
+  later(tick,speed);
+}
+
+function play(i){
+  clear(); current=i; const s=scenes[i];
+  [...tabs.children].forEach((b,j)=>b.setAttribute("aria-selected", j===i));
+  $("inFrom").textContent=s.inFrom; $("outFrom").textContent=s.outFrom; $("foot").textContent=s.foot;
+  s.nodes.forEach((n,k)=>$("n"+k).textContent=n);
+  nodes.forEach(n=>n.classList.remove("on"));
+  $("outText").textContent=""; $("inText").textContent="";
+  const beam=$("beam"); beam.style.transition="none"; beam.style.width="0";
+  if(reduce){
+    $("inText").textContent=s.inText; $("outText").textContent=s.outText;
+    nodes.forEach(n=>n.classList.add("on")); beam.style.width="calc(100% - 36px)"; return;
+  }
+  type($("inText"), s.inText, 28, ()=>{
+    nodes.forEach((n,k)=>later(()=>{
+      n.classList.add("on");
+      beam.style.transition="width .45s ease-out";
+      beam.style.width = `calc(${(k/(nodes.length-1))*100}% - ${k===nodes.length-1?36:0}px)`;
+    }, 300+k*480));
+    later(()=>type($("outText"), s.outText, 18, ()=>{
+      if(auto) later(()=>play((current+1)%scenes.length), 3200);
+    }), 300+nodes.length*480);
+  });
+}
+play(0);
+
+// filters
+const fbtns=[...document.querySelectorAll(".filters button")];
+fbtns.forEach(b=>b.onclick=()=>{
+  fbtns.forEach(x=>x.setAttribute("aria-pressed", x===b));
+  const f=b.dataset.f;
+  document.querySelectorAll(".proj").forEach(p=>{
+    p.hidden = !(f==="todos" || p.dataset.cat.split(" ").includes(f));
+  });
+});
+</script>
+</body>
+</html>
