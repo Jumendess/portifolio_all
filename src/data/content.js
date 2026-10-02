@@ -1,0 +1,222 @@
+// Edite aqui seus links de contato. Campos vazios não aparecem no site.
+export const profile = {
+  name: "Julio Mendes",
+  role: "Mensageria, automação e IA",
+  city: "São Paulo",
+  github: "https://github.com/Jumendess",
+  linkedin: "",
+  email: "",
+  whatsapp: "", // ex.: "5511999999999"
+};
+
+// Cenas do console animado do topo
+export const scenes = [
+  {
+    tab: "WhatsApp",
+    inFrom: "Cliente, no WhatsApp",
+    inText: "Oi, quero a segunda via da minha fatura.",
+    nodes: ["Webhook", "Chatbot", "API interna", "Cloud API"],
+    outFrom: "Atendimento automático",
+    outText: "Aqui está a sua fatura de setembro em PDF. Posso ajudar em mais alguma coisa?",
+    foot: "Mensagem recebida, entendida e respondida em segundos.",
+  },
+  {
+    tab: "Fluxent",
+    inFrom: "Você, no Telegram",
+    inText: "Quanto gastei com mercado este mês?",
+    nodes: ["Telegram", "Agente IA", "MCP + SQL", "Postgres"],
+    outFrom: "Fluxent",
+    outText: "R$ 842,30 em 11 compras. Isso é 18% a menos que em agosto.",
+    foot: "Pergunta livre, consulta montada na hora.",
+  },
+  {
+    tab: "Lia",
+    inFrom: "Você, no Telegram",
+    inText: "Responde o Marcos dizendo que topo a reunião de quinta.",
+    nodes: ["Telegram", "Orquestrador", "Contatos", "Gmail"],
+    outFrom: "Lia",
+    outText: "Pronto, o rascunho para o Marcos está no seu Gmail. Revise e envie quando quiser.",
+    foot: "A IA escreve, você aprova.",
+  },
+  {
+    tab: "Retenção",
+    inFrom: "Analista, no Teams",
+    inText: "Quais clientes têm risco de cancelar esta semana?",
+    nodes: ["Copilot", "Histórico", "Similares", "Ofertas por UF"],
+    outFrom: "Agente de retenção",
+    outText: "37 clientes com padrão parecido ao de quem cancelou. Sugestão: oferecer o plano de entrada antes do vencimento.",
+    foot: "Dados ilustrativos.",
+  },
+];
+
+// Mensageria: o que você faz com as APIs
+export const messaging = {
+  channels: ["WhatsApp Cloud API", "Telegram Bot API", "Messenger", "Microsoft Teams", "Blip", "Oracle Digital Assistant", "Dialogflow"],
+  skills: [
+    { title: "WhatsApp Business Cloud API", text: "Configuração de número e perfil, envio de mensagens de sessão e de templates, mídia e botões." },
+    { title: "Templates e disparos", text: "Criação de templates, jornadas de campanha com troca programada e acompanhamento do resultado." },
+    { title: "Webhooks", text: "Recebimento de mensagens e status de entrega em tempo real, com roteamento para bots, filas ou sistemas internos." },
+    { title: "Métricas", text: "Relatórios automáticos de mensagens entregues, lidas e de serviço, enviados todo dia para o time." },
+    { title: "Plataformas de atendimento", text: "Integrações com Blip, Oracle Digital Assistant e Dialogflow para unir bot e atendimento humano." },
+    { title: "Bots com IA", text: "Chatbots que entendem linguagem natural, guardam memória da conversa e acionam ferramentas." },
+  ],
+};
+
+export const filters = [
+  { id: "todos", label: "Todos" },
+  { id: "mensageria", label: "Mensageria" },
+  { id: "produto", label: "Produtos próprios" },
+  { id: "agente", label: "Agentes de IA" },
+  { id: "corp", label: "Corporativos" },
+  { id: "codigo", label: "Código aberto" },
+];
+
+export const projects = [
+  {
+    name: "Rendae",
+    tag: "SaaS de finanças pessoais",
+    cats: ["produto", "agente", "mensageria"],
+    line: "App web para controlar receitas, despesas, metas e orçamento, com uma consultora de IA que conversa sobre o seu dinheiro.",
+    text: "O Rendae reúne a vida financeira em um lugar só: carteiras, receitas, despesas, metas, orçamento e relatórios. A Renda IA é a consultora virtual do app, que responde dúvidas e ajuda a entender para onde o dinheiro está indo.",
+    points: [
+      "Consultora de IA própria, a Renda IA",
+      "Canal oficial no WhatsApp pela Cloud API da Meta",
+      "Pesquisa de satisfação por e-mail automatizada no n8n, a partir de uma lista em CSV",
+    ],
+    stack: ["Web app", "IA generativa", "WhatsApp Cloud API", "n8n", "SMTP"],
+  },
+  {
+    name: "Relatório diário do WhatsApp",
+    tag: "Métricas de mensageria",
+    cats: ["mensageria", "corp"],
+    line: "Todo dia, as métricas do dia anterior da API oficial do WhatsApp chegam prontas no Telegram.",
+    text: "Um fluxo agendado consulta a API, organiza as mensagens de serviço entregues no dia anterior e envia o resumo por um bot dedicado. O time abre o dia sabendo como a operação foi.",
+    points: ["Coleta automática do D-1", "Entrega no Telegram, sem abrir painel"],
+    stack: ["WhatsApp Cloud API", "n8n", "Telegram"],
+  },
+  {
+    name: "Jornada de campanhas",
+    tag: "Disparos · Microsoft 365 Copilot",
+    cats: ["mensageria", "corp", "agente"],
+    line: "Monta a sequência de templates de disparo e avisa o time no Teams no dia de trocar.",
+    text: "O time usava o mesmo template de campanha por muito tempo. O agente lê os templates atuais, monta uma jornada (por exemplo, template A por cinco dias, depois B), sugere novos textos e lembra a equipe da troca.",
+    points: ["Jornada com troca programada de templates", "Sugestão de novos textos", "Aviso no Teams no dia certo"],
+    stack: ["Microsoft 365 Copilot", "Teams", "Excel"],
+  },
+  {
+    name: "Webhooks de mensageria",
+    tag: "Integrações de canais",
+    cats: ["mensageria", "codigo"],
+    line: "A ponte entre os canais de conversa e os sistemas: WhatsApp, Messenger, Blip e Oracle Digital Assistant.",
+    text: "Uma coleção de serviços que recebem eventos dos canais, tratam a mensagem e devolvem a resposta. É a base que deixa um bot conversar com qualquer sistema.",
+    points: ["Webhooks para WhatsApp", "Webhook para Facebook Messenger", "Integração com a API da Blip", "Webhook para Oracle Digital Assistant"],
+    stack: ["Webhooks", "APIs REST", "WhatsApp", "Messenger", "Blip", "Oracle ODA"],
+    links: [
+      { label: "webhook_whatsApp_code", href: "https://github.com/Jumendess/webhook_whatsApp_code" },
+      { label: "webhook-facebook", href: "https://github.com/Jumendess/webhook-facebook" },
+      { label: "blip-integration-api", href: "https://github.com/Jumendess/blip-integration-api" },
+      { label: "webhook-oda", href: "https://github.com/Jumendess/webhook-oda" },
+    ],
+  },
+  {
+    name: "Fluxent",
+    tag: "Bot financeiro no Telegram",
+    cats: ["produto", "agente", "mensageria"],
+    line: "Você pergunta sobre os seus gastos em linguagem natural e o bot consulta o banco de dados e responde.",
+    text: "Um agente no Telegram ligado a um servidor MCP com ferramentas de banco de dados. Em vez de respostas fixas, ele monta a consulta SQL na hora, então aceita qualquer pergunta financeira.",
+    points: ["Registro de gastos e receitas pela conversa", "Servidor MCP com ferramentas Postgres", "SQL dinâmico para perguntas abertas"],
+    stack: ["n8n", "Telegram", "MCP", "PostgreSQL"],
+  },
+  {
+    name: "Lia, a Secretária IA",
+    tag: "Super agente no Telegram",
+    cats: ["agente", "mensageria"],
+    line: "Uma assistente pessoal que orquestra outros agentes: e-mail, agenda, vagas, restaurantes, passagens e até o guarda-roupa.",
+    text: "A Lia recebe o pedido e decide qual agente especializado resolve. Usa vários modelos de IA com reserva: se um falhar, outro responde.",
+    points: [
+      "Escreve e-mails e deixa como rascunho para revisão",
+      "Consulta e marca compromissos na agenda",
+      "Busca vagas compatíveis com o perfil usando RAG",
+      "Resumo diário às 8h com notícias, temperatura e chance de chuva",
+      "Guarda-roupa digital que sugere o look pela ocasião",
+    ],
+    stack: ["n8n", "Telegram", "Gmail", "Google Agenda", "RAG", "OpenAI", "Gemini", "Groq"],
+  },
+  {
+    name: "Agente de LinkedIn",
+    tag: "Otimização de perfil com IA",
+    cats: ["produto", "agente"],
+    line: "Lê o seu perfil, entende o seu objetivo e devolve textos prontos para colar, com antes e depois de cada melhoria.",
+    text: "A pessoa responde um briefing, envia o PDF do perfil e prints, e o agente, especialista no algoritmo do LinkedIn, gera a análise. Ela vê uma prévia, paga e recebe o relatório completo em PDF por e-mail.",
+    points: ["Base de conhecimento em pgvector", "Palavras-chave sugeridas e antes e depois", "Pagamento por Pix ou cartão via Stripe", "Custo por análise com o dólar PTAX do Banco Central"],
+    stack: ["n8n", "OpenAI", "pgvector", "Stripe"],
+  },
+  {
+    name: "Assistente Diá",
+    tag: "Atendimento no WhatsApp",
+    cats: ["agente", "mensageria"],
+    line: "Assistente virtual no WhatsApp que lembra do contexto da conversa e responde no tom da marca.",
+    text: "O fluxo no n8n guarda o histórico em Postgres, então a Diá mantém o fio da conversa entre mensagens e segue as regras do negócio definidas no prompt.",
+    points: ["Memória de conversa persistente", "Prompt ajustado ao tom e às regras da empresa"],
+    stack: ["n8n", "WhatsApp", "PostgreSQL"],
+  },
+  {
+    name: "Agente de retenção",
+    tag: "Microsoft 365 Copilot · telecom",
+    cats: ["corp", "agente"],
+    line: "Encontra clientes com risco de cancelar antes que eles liguem, e sugere a oferta certa para cada um.",
+    text: "O agente compara o histórico de atendimento e de CRM de um cliente com o de clientes parecidos que cancelaram, e recomenda uma abordagem, como um plano mais acessível. As ofertas variam por estado.",
+    points: ["Retenção proativa, não reativa", "Roteiro em quatro fases, da análise pós-ligação à assistência em tempo real"],
+    stack: ["Microsoft 365 Copilot", "Teams", "RAG", "Excel"],
+  },
+  {
+    name: "Editor de fluxo de URA",
+    tag: "Ferramenta interna · telecom",
+    cats: ["corp"],
+    line: "Transforma a planilha de roteamento de chamadas em um fluxograma interativo que dá para editar e exportar.",
+    text: "Toda a lógica de uma URA estava em uma planilha difícil de ler. O editor desenha o fluxo completo, permite mudar caminhos e exporta o resultado.",
+    points: [],
+    stack: ["JavaScript", "SVG"],
+  },
+  {
+    name: "Bot Dialogflow para WhatsApp",
+    tag: "Chatbot",
+    cats: ["codigo", "mensageria", "agente"],
+    line: "Integração entre Dialogflow e WhatsApp, com versão que usa a OpenAI para respostas abertas.",
+    text: "Webhooks que ligam a interpretação de intenções do Dialogflow ao WhatsApp. Uma variante passa as perguntas fora do roteiro para a OpenAI.",
+    points: [],
+    stack: ["Dialogflow", "WhatsApp", "OpenAI"],
+    links: [
+      { label: "Dialogflow-WhatsApp-Bot", href: "https://github.com/Jumendess/Dialogflow-WhatsApp-Bot" },
+      { label: "webhook_Openai_Dialogflow", href: "https://github.com/Jumendess/webhook_Openai_Dialogflow" },
+    ],
+  },
+  {
+    name: "Pedido Fácil",
+    tag: "Backend de pedidos",
+    cats: ["codigo"],
+    line: "API de pedidos com deploy automático a cada push no GitHub.",
+    text: "Backend publicado no Easypanel com webhook do GitHub: cada alteração enviada vira um novo deploy.",
+    points: [],
+    stack: ["Docker", "Easypanel", "Webhook"],
+    links: [{ label: "Ver código", href: "https://github.com/Jumendess/Pedido-facil-backend" }],
+  },
+  {
+    name: "Site IEBAM",
+    tag: "Site institucional",
+    cats: ["codigo"],
+    line: "Site de igreja com páginas de início, história, eventos e contato.",
+    text: "Projeto em React com rotas para cada página e uma página de boas-vindas própria.",
+    points: [],
+    stack: ["React", "Vite", "TypeScript"],
+    links: [{ label: "Ver código", href: "https://github.com/Jumendess/iebam-welcome-page" }],
+  },
+];
+
+export const timeline = [
+  { when: "nov 2025 – hoje", title: "Spread Tecnologia", text: "Analista desenvolvedor pleno em automação de atendimento, chatbots e IA para o setor de telecom.", now: true },
+  { when: "2025", title: "Consultor independente", text: "Projetos de automação, mensageria e IA para empresas." },
+  { when: "2022 – 2025", title: "ADIN · Oracle CX", text: "Desenvolvimento de chatbots para atendimento ao cliente." },
+  { when: "2015 – 2022", title: "RD", text: "Supervisor de vendas." },
+  { when: "até 2027", title: "Tecnologia em Cibersegurança", text: "Graduação em andamento na Anhanguera." },
+];
